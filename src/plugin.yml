@@ -1,0 +1,48 @@
+name: MailItems
+description: Send items to players and recieve items like a mailbox.
+main: com.domsplace.MailItemsPlugin
+authors: [Dominic]
+website: http://domsplace.com/
+version: 1.00
+load: POSTWORLD
+permission: You don't have permission.
+commands:
+   mailitems:
+      description: Reload the MailItems configuration.
+      usage: /<command> [player]
+      permission: MailItems.reload
+   senditem:
+      description: Sends an item to another players mailbox
+      usage: /<command> [player]
+      permission: MailItems.senditem
+      aliases: [mail, send]
+   mailbox:
+      description: Sets or gets your mailbox.
+      usage: /<command> [set]
+      permission: MailItems.mailbox
+permissions:
+   MailItems.*:
+     description: Gives access to all MailItems permissions.
+     children:
+       MailItems.senditem: true
+       MailItems.reload: true
+       MailItems.openmailbox: true
+       MailItems.mailbox: true
+       MailItems.mailbox.set: true
+   MailItems.senditem:
+     description: Allows players to send items to each other.
+     default: op
+   MailItems.reload:
+     description: Allows a player to reload the configuration.
+     default: op
+   MailItems.openmailbox:
+     description: Allows players to open anyones MailBox.
+     default: op
+   MailItems.mailbox:
+     description: Allows players to open anyones MailBox.
+     default: op
+   MailItems.mailbox.set:
+     description: Allows players to open anyones MailBox.
+     default: op
+     children:
+       MailItems.mailbox: true
