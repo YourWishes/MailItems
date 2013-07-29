@@ -26,12 +26,16 @@ public class MailItemsConfigManager extends MailItemsBase {
             if(!ConfigYML.contains("showfrom")) {
                 ConfigYML.set("showfrom", true);
             }
+            if(!ConfigYML.contains("removefrom")) {
+                ConfigYML.set("removefrom", true);
+            }
             if(!ConfigYML.contains("blockcreative")) {
                 ConfigYML.set("blockcreative", true);
             }
             
             //Check Values
             ShowFrom = ConfigYML.getBoolean("showfrom");
+            RemoveFrom = ConfigYML.getBoolean("removefrom");
             BlockCreative = ConfigYML.getBoolean("blockcreative");
             
             //Update Value

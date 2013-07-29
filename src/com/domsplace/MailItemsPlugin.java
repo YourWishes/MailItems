@@ -7,10 +7,9 @@ import com.domsplace.DataManagers.MailItemsConfigManager;
 import com.domsplace.DataManagers.MailItemsMailManager;
 import com.domsplace.DataManagers.MailItemsPluginManager;
 import com.domsplace.Listeners.MailItemsAntiBuildListener;
+import com.domsplace.Listeners.MailItemsChatListener;
 import com.domsplace.Listeners.MailItemsCustomEventListener;
-import com.domsplace.Objects.MailItemBox;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Chest;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +26,7 @@ public class MailItemsPlugin extends JavaPlugin {
     
     /*** Define Listeners ***/
     public static MailItemsAntiBuildListener AntiBuildListener;
+    public static MailItemsChatListener ChatListener;
     public static MailItemsCustomEventListener CustomEvent;
     
     @Override
@@ -50,6 +50,7 @@ public class MailItemsPlugin extends JavaPlugin {
         
         /*** Load Listeners ***/
         AntiBuildListener = new MailItemsAntiBuildListener();
+        ChatListener = new MailItemsChatListener();
         CustomEvent = new MailItemsCustomEventListener();
         
         /*** Register Commands ***/
@@ -63,6 +64,7 @@ public class MailItemsPlugin extends JavaPlugin {
         
         /*** Register Listeners ***/
         pluginManager.registerEvents(AntiBuildListener, this);
+        pluginManager.registerEvents(ChatListener, this);
         pluginManager.registerEvents(CustomEvent, this);
         
         MailItemsBase.permBroadcast("MailItems.*", "§dLoaded " + MailItemsPluginManager.getName() + " v" + MailItemsPluginManager.getVersion() + " successfully!");

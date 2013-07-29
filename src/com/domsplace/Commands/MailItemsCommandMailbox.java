@@ -5,7 +5,6 @@ import com.domsplace.DataManagers.MailItemsPluginManager;
 import com.domsplace.MailItemsBase;
 import com.domsplace.Objects.MailItemBox;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
@@ -56,6 +55,12 @@ public class MailItemsCommandMailbox extends MailItemsBase implements CommandExe
                 }
                 
                 Chest chest = getChest(targetedBlock);
+                
+                //Make sure it's not a double chest
+                if(isDoubleChest(chest)) {
+                    sender.sendMessage(ChatError + "Can't make mailbox on a double chest.");
+                    return true;
+                }
                 
                 MailItemBox newMailBox = new MailItemBox(chest, Bukkit.getOfflinePlayer(p.getName()));
                 

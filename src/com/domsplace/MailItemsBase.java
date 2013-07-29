@@ -18,6 +18,7 @@ public class MailItemsBase {
     public static String ChatDefault = ChatColor.GRAY.toString();
     
     public static boolean ShowFrom = true;
+    public static boolean RemoveFrom = true;
     public static boolean BlockCreative = true;
     
     public static String OpenOverride = "MailItems.openmailbox";
@@ -182,6 +183,31 @@ public class MailItemsBase {
     }
     
     public static boolean willMakeDoubleChest(Block b) {
+        Block t = b.getRelative(BlockFace.NORTH);
+        if(t != null && t.getType() != null && (t.getType().equals(Material.CHEST) || t.getType().equals(Material.TRAPPED_CHEST))) {
+            return true;
+        }
+        
+        t = b.getRelative(BlockFace.SOUTH);
+        if(t != null && t.getType() != null && (t.getType().equals(Material.CHEST) || t.getType().equals(Material.TRAPPED_CHEST))) {
+            return true;
+        }
+        
+        t = b.getRelative(BlockFace.EAST);
+        if(t != null && t.getType() != null && (t.getType().equals(Material.CHEST) || t.getType().equals(Material.TRAPPED_CHEST))) {
+            return true;
+        }
+        
+        t = b.getRelative(BlockFace.WEST);
+        if(t != null && t.getType() != null && (t.getType().equals(Material.CHEST) || t.getType().equals(Material.TRAPPED_CHEST))) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public static boolean isDoubleChest(Chest c) {
+        Block b = c.getBlock();
         Block t = b.getRelative(BlockFace.NORTH);
         if(t != null && t.getType() != null && (t.getType().equals(Material.CHEST) || t.getType().equals(Material.TRAPPED_CHEST))) {
             return true;
