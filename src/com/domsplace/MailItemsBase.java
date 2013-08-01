@@ -130,6 +130,22 @@ public class MailItemsBase {
                 continue;
             }
             
+            if(box.getPlayer() == null) {
+                continue;
+            }
+            
+            if(player == null) {
+                continue;
+            }
+            
+            if(box.getPlayer().getName() == null) {
+                continue;
+            }
+            
+            if(player.getName() == null) {
+                continue;
+            }
+            
             if(!box.getPlayer().getName().equalsIgnoreCase(player.getName())) {
                 continue;
             }

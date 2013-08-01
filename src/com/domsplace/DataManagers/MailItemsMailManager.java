@@ -41,7 +41,7 @@ public class MailItemsMailManager extends MailItemsBase {
             return;
         }
         for(String s : ms.getKeys(false)) {
-            OfflinePlayer p = MailYML.getOfflinePlayer("mailboxes." + s + ".owner");
+            OfflinePlayer p = Bukkit.getOfflinePlayer(MailYML.getString("mailboxes." + s + ".owner"));
             World w = Bukkit.getWorld(MailYML.getString("mailboxes." + s + ".world"));
             if(w == null) {
                 continue;

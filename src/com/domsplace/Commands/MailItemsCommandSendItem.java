@@ -37,9 +37,59 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
                 return true;
             }
             
+            if(args[0].equalsIgnoreCase("all") && sender.hasPermission("MailItems.senditem.all")) {
+                ItemStack heldItem = player.getItemInHand();
+                if(heldItem == null || heldItem.getType() == null || heldItem.getType().equals(Material.AIR)) {
+                    sender.sendMessage(ChatError + "Must be holding something to send.");
+                    return true;
+                }
+
+                ItemStack sentItem = new ItemStack(heldItem);
+                if(ShowFrom) {
+                    List<String> lores = heldItem.getItemMeta().getLore();
+                    if(lores == null) {
+                        lores = new ArrayList<String>();
+                    }
+
+                    lores.add(ChatDefault + "Mailed from " + ChatImportant + player.getName() + ChatDefault + ".");
+                    ItemMeta im = sentItem.getItemMeta();
+                    im.setLore(lores);
+
+                    sentItem.setItemMeta(im);
+                }
+                
+                for(MailItemBox mailBox : MailItemBox.mailBoxes) {
+                    if(mailBox == null) {
+                        continue;
+                    }
+                    
+                    if(mailBox.isFull()) {
+                        continue;
+                    }
+            
+                    /*** Fire the event ***/
+                    MailItemsBoxSentItemEvent event = new MailItemsBoxSentItemEvent(Bukkit.getOfflinePlayer(player.getName()), heldItem, mailBox);
+                    Bukkit.getPluginManager().callEvent(event);
+                    if(event.isCancelled()) {
+                        continue;
+                    }
+                    
+            
+                    if(mailBox.getPlayer().isOnline()) {
+                        mailBox.getPlayer().getPlayer().sendMessage(ChatImportant + sender.getName() + ChatDefault + " sent you something!");
+                    }
+                    mailBox.addItem(sentItem);
+                }
+                
+                player.getInventory().remove(heldItem);
+                
+                sender.sendMessage(ChatDefault + "Sent item to all mailboxes.");
+                return true;
+            }
+            
             OfflinePlayer target = getOfflinePlayer(args[0], sender);
             
-            if(target == null || !target.hasPlayedBefore()) {
+            if(target == null) {
                 sender.sendMessage(ChatError + args[0] + " isn't online.");
                 return true;
             }
@@ -90,6 +140,10 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
             
             player.getInventory().remove(heldItem);
             mailBox.addItem(sentItem);
+            
+            if(target.isOnline()) {
+                target.getPlayer().sendMessage(ChatImportant + sender.getName() + ChatDefault + " sent you something!");
+            }
             
             sender.sendMessage(ChatDefault + "Sent item to " + ChatImportant + target.getName() + ChatDefault + ".");
             return true;
