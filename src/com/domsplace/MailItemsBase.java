@@ -126,6 +126,10 @@ public class MailItemsBase {
     
     public static MailItemBox getMailBox(OfflinePlayer player) {
         for(MailItemBox box : MailItemBox.mailBoxes) {
+            if(box == null) {
+                continue;
+            }
+            
             if(!box.getPlayer().getName().equalsIgnoreCase(player.getName())) {
                 continue;
             }

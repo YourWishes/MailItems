@@ -3,7 +3,7 @@ description: Send items to players and recieve items like a mailbox.
 main: com.domsplace.MailItemsPlugin
 authors: [Dominic]
 website: http://domsplace.com/
-version: 1.01
+version: 1.02
 load: POSTWORLD
 permission: You don't have permission.
 commands:
