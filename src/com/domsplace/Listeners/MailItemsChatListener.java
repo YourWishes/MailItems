@@ -34,9 +34,7 @@ public class MailItemsChatListener extends MailItemsEventBase {
         List<String> lores = im.getLore();
         List<String> newLores = new ArrayList<String>();
         for(String s : lores) {
-            debug(s);
             if(s.contains("Mailed from")) {
-                debug("Found Lore");    
                 continue;
             }
             

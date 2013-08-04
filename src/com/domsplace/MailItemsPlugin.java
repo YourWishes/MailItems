@@ -1,5 +1,6 @@
 package com.domsplace;
 
+import com.domsplace.Commands.MailItemsCommandAddItem;
 import com.domsplace.Commands.MailItemsCommandMailItems;
 import com.domsplace.Commands.MailItemsCommandMailbox;
 import com.domsplace.Commands.MailItemsCommandSendItem;
@@ -21,6 +22,7 @@ public class MailItemsPlugin extends JavaPlugin {
     
     /*** Define Commands ***/
     MailItemsCommandSendItem SendItemCommand = new MailItemsCommandSendItem();
+    MailItemsCommandAddItem AddItemCommand = new MailItemsCommandAddItem();
     MailItemsCommandMailItems MailItemCommand = new MailItemsCommandMailItems();
     MailItemsCommandMailbox MailBoxCommand = new MailItemsCommandMailbox();
     
@@ -55,6 +57,7 @@ public class MailItemsPlugin extends JavaPlugin {
         
         /*** Register Commands ***/
         getCommand("senditem").setExecutor(SendItemCommand);
+        getCommand("additem").setExecutor(AddItemCommand);
         getCommand("mailitems").setExecutor(MailItemCommand);
         getCommand("mailbox").setExecutor(MailBoxCommand);
         

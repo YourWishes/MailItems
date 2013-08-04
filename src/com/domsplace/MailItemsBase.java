@@ -68,8 +68,8 @@ public class MailItemsBase {
         msgConsole(ChatError + reason);
     }
     
-    public static void debug(String message) {
-        broadcast("§bDEBUG: §d: " + message);
+    public static void debug(Object message) {
+        broadcast("§bDEBUG: §d: " + message.toString());
     }
     
     public static String stringLocation(Location location) {
