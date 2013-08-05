@@ -3,9 +3,10 @@ description: Send items to players and recieve items like a mailbox.
 main: com.domsplace.MailItemsPlugin
 authors: [Dominic]
 website: http://domsplace.com/
-version: 1.04
+version: 1.05
 load: POSTWORLD
 permission: You don't have permission.
+softdepend: [Vault]
 commands:
    mailitems:
       description: Reload the MailItems configuration.
@@ -37,6 +38,7 @@ permissions:
        MailItems.mailbox.set: true
        MailItems.additem: true
        MailItems.additem.all: true
+       MailItems.free: true
    MailItems.senditem:
      description: Allows players to send items to each other.
      default: op
@@ -45,6 +47,9 @@ permissions:
      default: op
    MailItems.reload:
      description: Allows a player to reload the configuration.
+     default: op
+   MailItems.free:
+     description: Allows a player to send items for free.
      default: op
    MailItems.openmailbox:
      description: Allows players to open anyones MailBox.

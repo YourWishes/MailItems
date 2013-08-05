@@ -1,8 +1,10 @@
 package com.domsplace.Commands;
 
+import com.domsplace.DataManagers.MailItemsConfigManager;
 import com.domsplace.Events.MailItemsBoxSentItemEvent;
 import com.domsplace.MailItemsBase;
 import com.domsplace.Objects.MailItemBox;
+import com.domsplace.Utils.MailItemsUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -25,8 +27,16 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
                 return true;
             }
             
+            //Make sure the player has the money (if using economy)
+            boolean useEco = MailItemsUtils.economy!=null;
+            
             if(args.length < 1) {
                 sender.sendMessage(ChatDefault + "Sends the item(s) you're holding to another players mailbox.");
+                if(useEco && !sender.hasPermission("MailItems.free")) {
+                    double price = MailItemsConfigManager.ConfigYML.getDouble("economy.price.senditem");
+                    sender.sendMessage(ChatDefault + "Sending items costs " + MailItemsUtils.economy.format(price) + ".");
+                }
+            
                 return false;
             }
             
@@ -87,6 +97,15 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
                 return true;
             }
             
+            if(useEco && !sender.hasPermission("MailItems.free")) {
+                double balance = MailItemsUtils.economy.getBalance(sender.getName());
+                double price = MailItemsConfigManager.ConfigYML.getDouble("economy.price.senditem");
+                if(balance < price) {
+                    sender.sendMessage(ChatError + "You dont have the " + MailItemsUtils.economy.format(price) + "!");
+                    return true;
+                }
+            }
+            
             OfflinePlayer target = getOfflinePlayer(args[0], sender);
             
             if(target == null) {
@@ -140,6 +159,14 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
             
             player.getInventory().remove(heldItem);
             mailBox.addItem(sentItem);
+            
+            //Charge Player
+            if(useEco && !sender.hasPermission("MailItems.free")) {
+                double price = MailItemsConfigManager.ConfigYML.getDouble("economy.price.senditem");
+                MailItemsUtils.economy.withdrawPlayer(sender.getName(), price);
+                sender.sendMessage(ChatDefault + "Spent " + ChatImportant + MailItemsUtils.economy.format(price) + ChatDefault + ".");
+            }
+            
             
             if(target.isOnline()) {
                 target.getPlayer().sendMessage(ChatImportant + sender.getName() + ChatDefault + " sent you something!");
