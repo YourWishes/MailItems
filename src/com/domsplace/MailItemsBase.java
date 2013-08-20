@@ -150,6 +150,18 @@ public class MailItemsBase {
                 continue;
             }
             
+            if(box.getChest() == null) {
+                continue;
+            }
+            
+            if(box.getChest().getBlock() == null) {
+                continue;
+            }
+            
+            if(!isChest(box.getChest().getBlock())) {
+                continue;
+            }
+            
             return box;
         }
         

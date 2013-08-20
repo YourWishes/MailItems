@@ -143,6 +143,7 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
             }
             
             ItemStack sentItem = new ItemStack(heldItem);
+            sentItem.setAmount(heldItem.getAmount());
             
             if(ShowFrom) {
                 List<String> lores = heldItem.getItemMeta().getLore();
@@ -157,7 +158,35 @@ public class MailItemsCommandSendItem extends MailItemsBase implements CommandEx
                 sentItem.setItemMeta(im);
             }
             
-            player.getInventory().remove(heldItem);
+            if(sentItem.getAmount() > 64) {
+                sentItem.setAmount(64);
+            }
+            
+            int amount = sentItem.getAmount();
+            
+            for(int i = 0; i < player.getInventory().getContents().length; i++) {
+                ItemStack is = player.getInventory().getContents()[i];
+                if(is == null || is.getType() == null) {
+                    continue;
+                }
+                if(!is.getType().equals(sentItem.getType())) {
+                    continue;
+                }
+                if(amount <= 0) {
+                    break;
+                }
+                
+                int cAmount = is.getAmount();
+                if(cAmount <= amount) {
+                    player.getInventory().setItem(i, null);
+                    is = null;
+                    amount -= cAmount;
+                    continue;
+                }
+                is.setAmount(cAmount-amount);
+                amount = 0;
+            }
+            
             mailBox.addItem(sentItem);
             
             //Charge Player

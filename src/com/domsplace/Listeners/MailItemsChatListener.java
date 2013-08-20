@@ -41,8 +41,14 @@ public class MailItemsChatListener extends MailItemsEventBase {
             newLores.add(s);
         }
         
-        im.setLore(newLores);
+        if(newLores.isEmpty()) {
+            ItemStack itemStack = new ItemStack(is.getType(), is.getAmount());
+            im.setLore(itemStack.getItemMeta().getLore());
+        } else {
+            im.setLore(newLores);
+        }
         is.setItemMeta(im);
+        e.setCurrentItem(is);
     }
     
     @EventHandler
